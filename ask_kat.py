@@ -50,50 +50,140 @@ def call_gemini(prompt: str) -> str:
         return f"[ERROR calling Gemini API]: {e}"
 
 
-def main():
-    # 1. Load environment variables from .env
-    load_dotenv()
+# In-memory cached model and index for fast responses in web apps
+_cached_model = None
+_cached_index = None
+_cached_articles = None
+_cached_mtime = None
 
-    json_path = "news.json"
 
-    # 2. Check if news.json exists
+def get_model():
+    """Returns the cached SentenceTransformer model, loading it if not yet initialized."""
+    global _cached_model
+    if _cached_model is None:
+        _cached_model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _cached_model
+
+
+def get_articles_and_index(json_path: str = "news.json"):
+    """
+    Loads news articles from json_path and returns (articles, faiss_index).
+    Caches the FAISS index in memory unless news.json has been modified.
+    """
+    global _cached_index, _cached_articles, _cached_mtime
     if not os.path.exists(json_path):
-        print(f"[ERROR] '{json_path}' not found. Please run fetch_news.py first to generate articles.")
-        return
+        return None, None
 
-    # 3. Load news articles
+    mtime = os.path.getmtime(json_path)
+    if _cached_index is not None and _cached_articles is not None and _cached_mtime == mtime:
+        return _cached_articles, _cached_index
+
     try:
         with open(json_path, "r", encoding="utf-8") as f:
             articles = json.load(f)
     except Exception as e:
         print(f"[ERROR] Failed to read '{json_path}': {e}")
-        return
+        return None, None
 
     if not articles:
-        print("No articles found in news.json.")
-        return
+        return [], None
 
-    # 4. Load SentenceTransformer embedding model
-    print("Loading SentenceTransformer model ('all-MiniLM-L6-v2')...")
-    model = SentenceTransformer("all-MiniLM-L6-v2")
-
-    # 5. Prepare text: combine title and description for each article
+    model = get_model()
     article_texts = [
         f"{article.get('title', '')}. {article.get('description', '')}".strip()
         for article in articles
     ]
 
-    print(f"Embedding {len(article_texts)} articles and building FAISS index...")
-    # 6. Generate embeddings
     embeddings = model.encode(article_texts, convert_to_numpy=True, show_progress_bar=False)
-
-    # 7. Build FAISS index
     embedding_dim = embeddings.shape[1]
     index = faiss.IndexFlatL2(embedding_dim)
     index.add(embeddings.astype("float32"))
-    print(f"FAISS index built successfully with {index.ntotal} vectors.\n")
 
-    # 8. Prompt user for question
+    _cached_articles = articles
+    _cached_index = index
+    _cached_mtime = mtime
+    return _cached_articles, _cached_index
+
+
+def ask_kat(question: str, json_path: str = "news.json") -> dict:
+    """
+    Core Kat Q&A logic:
+    Retrieves top matching articles from FAISS index, builds the prompt,
+    calls Gemini API, and returns a dictionary with Kat's reply and source articles.
+    """
+    load_dotenv()
+    question = (question or "").strip()
+    if not question:
+        return {"reply": "Please ask a non-empty question.", "sources": []}
+
+    articles, index = get_articles_and_index(json_path)
+    if articles is None:
+        return {
+            "reply": f"[ERROR] '{json_path}' not found. Please run fetch_news.py first.",
+            "sources": []
+        }
+    if not articles or index is None:
+        return {
+            "reply": "No articles found in news.json. Please run fetch_news.py to fetch fresh headlines.",
+            "sources": []
+        }
+
+    model = get_model()
+    query_embedding = model.encode([question], convert_to_numpy=True, show_progress_bar=False)
+
+    top_k = min(3, len(articles))
+    distances, indices = index.search(query_embedding.astype("float32"), k=top_k)
+
+    formatted_articles = []
+    sources = []
+    for rank, (idx, dist) in enumerate(zip(indices[0], distances[0]), start=1):
+        if idx == -1 or idx >= len(articles):
+            continue
+        art = articles[idx]
+        title = art.get("title") or "No Title Available"
+        desc = art.get("description") or "No Description Available"
+        url = art.get("url") or ""
+
+        sources.append({
+            "rank": rank,
+            "title": title,
+            "description": desc,
+            "url": url,
+            "distance": float(dist)
+        })
+
+        formatted_articles.append(
+            f"Article {rank}:\n"
+            f"- Title: {title}\n"
+            f"- Description: {desc}\n"
+            f"- URL: {url}"
+        )
+
+    articles_context = "\n\n".join(formatted_articles)
+
+    prompt = (
+        f"You are Kat, a chatbot that answers questions using today's news.\n\n"
+        f"Given these articles:\n"
+        f"{articles_context}\n\n"
+        f"answer the question: {question}\n\n"
+        f"Only use information from the articles provided. If the articles don't contain the answer, say so."
+    )
+
+    reply = call_gemini(prompt)
+    return {
+        "reply": reply,
+        "sources": sources
+    }
+
+
+def main():
+    load_dotenv()
+    json_path = "news.json"
+
+    if not os.path.exists(json_path):
+        print(f"[ERROR] '{json_path}' not found. Please run fetch_news.py first to generate articles.")
+        return
+
     try:
         question = input("Ask KAT a question: ").strip()
     except (EOFError, KeyboardInterrupt):
@@ -104,50 +194,17 @@ def main():
         print("Please provide a non-empty question.")
         return
 
-    # 9. Embed the user's question
-    query_embedding = model.encode([question], convert_to_numpy=True, show_progress_bar=False)
+    print("Retrieving answer from Kat...")
+    result = ask_kat(question, json_path=json_path)
 
-    # 10. Search FAISS index for top 3 closest articles
-    top_k = min(3, len(articles))
-    distances, indices = index.search(query_embedding.astype("float32"), k=top_k)
-
-    # 11. Format top articles for the Gemini prompt
-    formatted_articles = []
-    print(f"\nRetrieved Top {top_k} Matching Articles from FAISS:\n")
-    for rank, (idx, dist) in enumerate(zip(indices[0], distances[0]), start=1):
-        if idx == -1 or idx >= len(articles):
-            continue
-        art = articles[idx]
-        title = art.get("title") or "No Title Available"
-        desc = art.get("description") or "No Description Available"
-        url = art.get("url") or ""
-
-        print(f"{rank}. {title} (Distance: {dist:.4f})")
-
-        formatted_articles.append(
-            f"Article {rank}:\n"
-            f"- Title: {title}\n"
-            f"- Description: {desc}\n"
-            f"- URL: {url}"
-        )
+    print("\nRetrieved Sources:")
+    for src in result.get("sources", []):
+        print(f"{src['rank']}. {src['title']} (Distance: {src['distance']:.4f})")
     print("-" * 80)
 
-    articles_context = "\n\n".join(formatted_articles)
-
-    # 12. Construct the prompt for Kat as requested
-    prompt = (
-        f"You are Kat, a chatbot that answers questions using today's news.\n\n"
-        f"Given these articles:\n"
-        f"{articles_context}\n\n"
-        f"answer the question: {question}\n\n"
-        f"Only use information from the articles provided. If the articles don't contain the answer, say so."
-    )
-
-    # 13. Send to Gemini and print Kat's reply
-    reply = call_gemini(prompt)
     print("\nKat's Reply:")
     print("=" * 80)
-    print(reply)
+    print(result.get("reply", ""))
     print("=" * 80)
 
 
