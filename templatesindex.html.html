@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kat — News, on demand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17171a;
+    --paper:#ffffff;
+    --paper-dim:#f6f6f4;
+    --rule:#e3e2dd;
+    --wire:#1b4332;   /* deep newsroom green, the one accent */
+    --wire-soft:#e9f1ec;
+    --muted:#78766f;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    display:flex; flex-direction:column;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+
+  header{
+    border-bottom:1px solid var(--rule);
+    padding:22px 24px 16px;
+    flex-shrink:0;
+  }
+  .wordmark{
+    font-family:'Fraunces', Georgia, serif;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .wordmark .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--wire);
+    display:inline-block;
+    transform:translateY(-10px);
+  }
+  .tagline{
+    font-size:13px;
+    color:var(--muted);
+    margin-top:2px;
+  }
+
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:20px 16px 12px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  main::-webkit-scrollbar{ width:8px; }
+  main::-webkit-scrollbar-thumb{ background:var(--rule); border-radius:4px; }
+
+  .row{ display:flex; max-width:640px; width:100%; margin:0 auto; }
+  .row.kat{ justify-content:flex-start; }
+  .row.user{ justify-content:flex-end; }
+
+  .bubble{
+    padding:11px 15px;
+    font-size:14.5px;
+    line-height:1.5;
+    max-width:78%;
+  }
+  .row.kat .bubble{
+    background:var(--paper-dim);
+    border:1px solid var(--rule);
+    border-radius:3px 12px 12px 12px;
+  }
+  .row.user .bubble{
+    background:var(--wire);
+    color:#fff;
+    border-radius:12px 3px 12px 12px;
+  }
+
+  .sources{
+    margin-top:8px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .sources a{
+    font-size:12px;
+    color:var(--wire);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+  }
+  .sources a:hover{ border-bottom-color:var(--wire); }
+
+  .empty{
+    margin:auto;
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+    max-width:320px;
+    line-height:1.6;
+  }
+  .empty .big{
+    font-family:'Fraunces', Georgia, serif;
+    font-size:22px;
+    color:var(--ink);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .typing{
+    display:flex; gap:4px; align-items:center; padding:6px 2px;
+  }
+  .typing span{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--muted);
+    animation:pulse 1.1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){ animation-delay:.15s; }
+  .typing span:nth-child(3){ animation-delay:.3s; }
+  @keyframes pulse{ 0%,60%,100%{ opacity:.25; } 30%{ opacity:1; } }
+
+  form{
+    flex-shrink:0;
+    border-top:1px solid var(--rule);
+    padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));
+    display:flex;
+    justify-content:center;
+  }
+  .input-wrap{
+    max-width:640px; width:100%;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--paper-dim);
+    border:1px solid var(--rule);
+    border-radius:22px;
+    padding:6px 6px 6px 16px;
+  }
+  input[type=text]{
+    flex:1;
+    border:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:14.5px;
+    color:var(--ink);
+    outline:none;
+  }
+  input[type=text]::placeholder{ color:var(--muted); }
+  button{
+    flex-shrink:0;
+    width:34px; height:34px;
+    border-radius:50%;
+    border:none;
+    background:var(--wire);
+    color:#fff;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .15s;
+  }
+  button:disabled{ opacity:.4; cursor:default; }
+  button svg{ width:15px; height:15px; }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#f2f2ef;
+      --paper:#141414;
+      --paper-dim:#1c1c1a;
+      --rule:#2d2d2a;
+      --wire:#4caf82;
+      --wire-soft:#1b2b22;
+      --muted:#8e8c85;
+    }
+    .row.user .bubble{ color:#0e140f; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Kat<span class="dot"></span></div>
+  <div class="tagline">today's news, one question away</div>
+</header>
+
+<main id="chat">
+  <div class="empty" id="emptyState">
+    <span class="big">Ask Kat anything in the news</span>
+    Try "what's happening with the economy" or "any cricket news today"
+  </div>
+</main>
+
+<form id="askForm">
+  <div class="input-wrap">
+    <input type="text" id="question" placeholder="Ask about today's news…" autocomplete="off" />
+    <button type="submit" id="sendBtn" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="6 11 12 5 18 11"></polyline>
+      </svg>
+    </button>
+  </div>
+</form>
+
+<script>
+  const chat = document.getElementById('chat');
+  const form = document.getElementById('askForm');
+  const input = document.getElementById('question');
+  const btn = document.getElementById('sendBtn');
+  const emptyState = document.getElementById('emptyState');
+
+  function addRow(role, html){
+    const row = document.createElement('div');
+    row.className = 'row ' + role;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = html;
+    row.appendChild(bubble);
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
+    return bubble;
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const q = input.value.trim();
+    if(!q) return;
+
+    if(emptyState) emptyState.remove();
+
+    addRow('user', escapeHtml(q));
+    input.value = '';
+    btn.disabled = true;
+
+    const typingBubble = addRow('kat', '<div class="typing"><span></span><span></span><span></span></div>');
+
+    try{
+      // Expects a Flask route POST /ask returning { answer: string, sources: [{title, url}] }
+      const res = await fetch('/ask', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ question: q })
+      });
+      const data = await res.json();
+
+      let html = escapeHtml(data.answer || "Sorry, something went wrong.");
+      if(data.sources && data.sources.length){
+        html += '<div class="sources">' + data.sources.map(s =>
+          `<a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a>`
+        ).join('') + '</div>';
+      }
+      typingBubble.innerHTML = html;
+    }catch(err){
+      typingBubble.textContent = "Couldn't reach Kat — check that the backend is running.";
+    }finally{
+      btn.disabled = false;
+      input.focus();
+    }
+  });
+</script>
+
+</body>
+</html>

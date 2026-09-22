@@ -613,12 +613,17 @@
       let sourcesHtml = '';
       if (sources && sources.length > 0) {
         const sourcesId = 'sources_' + Math.random().toString(36).substring(2, 9);
-        const items = sources.map(s => `
-          <div class="source-item">
-            <a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.rank}. ${s.title || 'Source article'} ↗</a>
-            <div class="source-desc">${s.description || ''}</div>
-          </div>
-        `).join('');
+        const items = sources.map((s, idx) => {
+          const num = s.rank ? s.rank + '. ' : (idx + 1) + '. ';
+          const title = s.title || 'Source article';
+          const descHtml = s.description ? `<div class="source-desc">${s.description}</div>` : '';
+          return `
+            <div class="source-item">
+              <a href="${s.url}" target="_blank" rel="noopener noreferrer">${num}${title} ↗</a>
+              ${descHtml}
+            </div>
+          `;
+        }).join('');
 
         sourcesHtml = `
           <div class="sources-container">
@@ -667,7 +672,7 @@
       showTypingIndicator();
 
       try {
-        const res = await fetch('/api/ask', {
+        const res = await fetch('/ask', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question: question })
@@ -677,9 +682,9 @@
         removeTypingIndicator();
 
         if (res.ok) {
-          appendBotMessage(data.reply, data.sources);
+          appendBotMessage(data.answer || data.reply, data.sources);
         } else {
-          appendBotMessage(data.reply || "An error occurred while answering your question.");
+          appendBotMessage(data.answer || data.reply || data.error || "An error occurred while answering your question.");
         }
       } catch (err) {
         removeTypingIndicator();

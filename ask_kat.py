@@ -114,17 +114,21 @@ def ask_kat(question: str, json_path: str = "news.json") -> dict:
     load_dotenv()
     question = (question or "").strip()
     if not question:
-        return {"reply": "Please ask a non-empty question.", "sources": []}
+        return {"answer": "Please ask a non-empty question.", "reply": "Please ask a non-empty question.", "sources": []}
 
     articles, index = get_articles_and_index(json_path)
     if articles is None:
+        msg = f"[ERROR] '{json_path}' not found. Please run fetch_news.py first."
         return {
-            "reply": f"[ERROR] '{json_path}' not found. Please run fetch_news.py first.",
+            "answer": msg,
+            "reply": msg,
             "sources": []
         }
     if not articles or index is None:
+        msg = "No articles found in news.json. Please run fetch_news.py to fetch fresh headlines."
         return {
-            "reply": "No articles found in news.json. Please run fetch_news.py to fetch fresh headlines.",
+            "answer": msg,
+            "reply": msg,
             "sources": []
         }
 
@@ -171,6 +175,7 @@ def ask_kat(question: str, json_path: str = "news.json") -> dict:
 
     reply = call_gemini(prompt)
     return {
+        "answer": reply,
         "reply": reply,
         "sources": sources
     }
