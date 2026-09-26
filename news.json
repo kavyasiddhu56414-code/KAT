@@ -1,5 +1,11 @@
 [
     {
+        "title": "Live updates: Trump hosts Xi for US-China summit in Washington - CNN",
+        "description": "Chinese leader Xi Jinping is in Washington, DC, for the first time in over a decade to meet with President Donald Trump at a series of events. Follow live updates.",
+        "url": "https://www.cnn.com/2026/09/24/politics/live-news/trump-meeting-china-xi-us-visit",
+        "publishedAt": "2026-09-25T05:30:00Z"
+    },
+    {
         "title": "Bob Pettit, basketball great who was named the NBA’s first MVP, dies at 93 - The Washington Post",
         "description": "He led the St. Louis Hawks to the 1958 title and revolutionized his position, establishing himself as one of the greatest players of his generation.",
         "url": "https://www.washingtonpost.com/nation/2026/09/24/bob-pettit-basketball-great-who-was-named-nbas-first-mvp-dies-93/",
@@ -12,21 +18,9 @@
         "publishedAt": "2026-09-25T04:35:39Z"
     },
     {
-        "title": "Too traumatized to die? Women rally to halt execution of rape survivor - USA Today",
-        "description": "Killer Christa Pike suffered through rapes as a toddler, an 11-year-old and a teenager. Sex abuse experts are trying to stop her execution next week.",
-        "url": "https://www.usatoday.com/story/news/nation/2026/09/24/christa-pike-execution-tennessee-colleen-slemmer/91717806007/",
-        "publishedAt": "2026-09-25T03:04:00Z"
-    },
-    {
-        "title": "Even the Unabomber can't escape the generic streaming biopic curse - A.V. Club",
-        "description": "Jacob Tremblay plays a young Unabomber, but the Netflix original biopic confuses added context for a compelling narrative.",
-        "url": "https://www.avclub.com/unabomber-review-netflix-jacob-tremblay-russell-crowe-biopic",
-        "publishedAt": "2026-09-25T01:02:58Z"
-    },
-    {
-        "title": "Netanyahu defends Israeli military action as delegates walk out before UN speech - BBC",
-        "description": "The Israeli leader labels those who left his speech at the UN General Assembly as \"moral cowards\".",
-        "url": "https://www.bbc.com/news/articles/c3y0z7kxlegdo",
-        "publishedAt": "2026-09-25T00:44:04Z"
+        "title": "Senate rejects measure to block Trump from ordering more strikes on Iran - The Washington Post",
+        "description": "The administration ignored passage of a similar resolution in June, arguing that it lacks the force of law.",
+        "url": "https://www.washingtonpost.com/politics/2026/09/24/senate-rejects-measure-block-trump-ordering-more-strikes-iran/",
+        "publishedAt": "2026-09-25T02:00:19Z"
     }
 ]
