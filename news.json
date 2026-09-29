@@ -1,9 +1,21 @@
 [
     {
-        "title": "SpaceX prepares to send Starship rocket to orbit for first time - CNBC",
-        "description": "Elon Musk's SpaceX is poised to launch a historic test flight of its massive Starship rocket early Monday.",
-        "url": "https://www.cnbc.com/2026/09/28/spacex-prepares-to-send-starship-rocket-to-orbit-for-first-time.html",
-        "publishedAt": "2026-09-28T04:01:01Z"
+        "title": "Five arrested on ‘terrorism’ charges in UK near base used to strike Iran - Al Jazeera",
+        "description": "Police evacuated about 85 households and cordoned off the area as bomb disposal experts examined three vehicles.",
+        "url": "https://www.aljazeera.com/news/2026/9/27/uk-police-evacuate-homes-near-air-base-used-by-us",
+        "publishedAt": "2026-09-28T05:54:31Z"
+    },
+    {
+        "title": "Sunday Night Football: Broncos complete comeback, defeat Rams 30-26 - NBC Sports",
+        "description": "Los Angeles was in it until the last play, but Denver was able to hang on for the team's second victory of the season.",
+        "url": "https://www.nbcsports.com/nfl/profootballtalk/rumor-mill/news/sunday-night-football-broncos-complete-comeback-defeat-rams-30-26",
+        "publishedAt": "2026-09-28T04:18:03Z"
+    },
+    {
+        "title": "Trump administration set to roll out lower fuel economy standards for cars, light trucks - AP News",
+        "description": "The Trump administration on Monday plans to release new fuel economy standards that would relax regulatory requirements for automakers to control pollution from gasoline-powered cars and light trucks. President Donald Trump claimed on his Truth Social media a…",
+        "url": "https://apnews.com/article/trump-gas-mileage-electric-vehicles-pollution-403742074c3f3140aaa1d10829daf35f",
+        "publishedAt": "2026-09-28T04:01:00Z"
     },
     {
         "title": "Benjamin Satterley Dies One Day After Match: AEW Wrestler Known As “Pac” Was 40 - Deadline",
@@ -12,15 +24,9 @@
         "publishedAt": "2026-09-28T03:29:00Z"
     },
     {
-        "title": "Taylor Swift premieres music video for 'Patient Zero' at the VMAs - yahoo.com",
-        "description": "Dakota Johnson and Colin Farrell star in this track off the encore edition of Swift's 12th album, \"The Life of a Showgirl.\"",
-        "url": "https://www.yahoo.com/entertainment/music/article/taylor-swift-premieres-music-video-for-patient-zero-at-the-vmas-014934744.html",
-        "publishedAt": "2026-09-28T02:18:00Z"
-    },
-    {
-        "title": "White House expands taxpayer-paid ad campaign boosting Trump - The Washington Post",
-        "description": "The taxpayer-funded campaign borrows the president's political rhetoric as the White House defends the spots as “public service” announcements.",
-        "url": "https://www.washingtonpost.com/politics/2026/09/27/white-house-expands-taxpayer-paid-ad-campaign-boosting-trump/",
-        "publishedAt": "2026-09-28T00:09:30Z"
+        "title": "Trump-Xi summit analysis: 'Tangible outcomes' needed for U.S.-China truce to hold - CNBC",
+        "description": "U.S. President Donald Trump and Chinese President Xi Jinping met in Washington, D.C., last week and signaled plans to meet two more times this year.",
+        "url": "https://www.cnbc.com/2026/09/28/trump-xi-summit-tangible-outcomes-us-china-truce.html",
+        "publishedAt": "2026-09-28T02:49:00Z"
     }
 ]
