@@ -1,26 +1,32 @@
 [
     {
-        "title": "With more than 1,000 measles cases, Pennsylvania now has the largest U.S. outbreak in 3 decades - Pittsburgh Post-Gazette",
-        "description": "False",
-        "url": "https://www.post-gazette.com/news/health/2026/10/05/pennsylvania-measles-outbreak-update/stories/202610050033",
-        "publishedAt": "2026-10-06T07:03:47Z"
+        "title": "Russia’s neighbor backs push to lift ban on nuclear weapons, prompting outcry from Moscow - CNBC",
+        "description": "Lithuania is seeking to bolster its security amid growing concerns over Russia.",
+        "url": "https://www.cnbc.com/2026/10/06/russia-ukraine-lithuania-trump-nato.html",
+        "publishedAt": "2026-10-06T12:04:46Z"
     },
     {
-        "title": "Falcons 45-24 Saints (Oct 5, 2026) Game Recap - ESPN",
-        "description": "No Description Available",
-        "url": "https://www.espn.com/nfl/recap?gameId\\\\u003d401872979",
-        "publishedAt": "2026-10-06T07:02:57Z"
+        "title": "Now It’s Clear Why Amazon Didn’t Want to Release ‘Artificial’: It’s Withering AF - The Hollywood Reporter",
+        "description": "Luca Guadagnino’s new film skewers OpenAI's Sam Altman and almost anyone who ever aligned with him. It’s also largely accurate.",
+        "url": "http://www.hollywoodreporter.com/movies/movie-news/what-artifical-is-about-altman-garfield-1236723194/",
+        "publishedAt": "2026-10-06T12:00:46Z"
     },
     {
-        "title": "Trump says 'threat' led US to pull bombers from RAF Fairford - bbc.com",
-        "description": "The Pentagon confirmed on Sunday it had removed the B1 bombers from the base in England back to their home stations in America.",
-        "url": "https://www.bbc.com/news/articles/cwj3413e5m1lo",
-        "publishedAt": "2026-10-06T07:02:24Z"
+        "title": "Germany's ex-spy chief arrested for espionage and treason - dw.com",
+        "description": "August Hanning, the man who once led Germany's spy service, is now under investigation for passing on state secrets.",
+        "url": "https://www.dw.com/en/germanys-ex-spy-chief-arrested-for-espionage/a-79560278",
+        "publishedAt": "2026-10-06T11:51:11Z"
     },
     {
-        "title": "Austin Abrams’ ‘Whalefall’: First Reactions - The Hollywood Reporter",
-        "description": "The survival thriller, directed by Brian Duffield, hits theaters on Oct. 16.",
-        "url": "http://www.hollywoodreporter.com/movies/movie-news/whalefall-first-reactions-austin-abrams-brian-duffield-1236716804/",
-        "publishedAt": "2026-10-06T06:12:57Z"
+        "title": "New York declares measles disaster emergency as cases surge in Pennsylvania - Fox News",
+        "description": "Kathy Hochul declared a statewide New York emergency as 108 measles cases spread from Pennsylvania, expanding who can administer MMR vaccines.",
+        "url": "https://www.foxnews.com/health/new-york-declares-measles-disaster-emergency-cases-surge-pennsylvania",
+        "publishedAt": "2026-10-06T11:08:01Z"
+    },
+    {
+        "title": "SpaceX just locked up a NASA record no other U.S. spacecraft can touch - Teslarati",
+        "description": "SpaceX's Crew-13 Dragon reached the ISS in under eight hours, and NASA confirmed a record.",
+        "url": "https://www.teslarati.com/spacex-just-locked-up-a-nasa-record-no-other-u-s-spacecraft-can-touch/",
+        "publishedAt": "2026-10-06T10:46:40Z"
     }
 ]
